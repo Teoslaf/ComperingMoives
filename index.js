@@ -12,7 +12,7 @@ const autoCompleteConfig = {
 	async fetchData(searchTerm) {
 		const response = await axios.get('http://www.omdbapi.com/', {
 			params : {
-				apikey : 'd9835cc5',
+				apikey : '6d8755d9',
 				s      : searchTerm
 			}
 		});
@@ -65,7 +65,25 @@ const onMovieSelect = async (movie, summaryElement, side) => {
 	}
 };
 
-const runComparison = () => {};
+const runComparison = () => {
+	const leftSideStats = document.querySelectorAll('#left-summary .notification');
+	const rightSideStats = document.querySelectorAll('#right-summary .notification');
+
+	leftSideStats.forEach((leftStat, index) => {
+		const rightStat = rightSideStats[index];
+
+		const leftSideValue = leftStat.dataset.value;
+		const rightSideValue = rightStat.dataset.value;
+
+		if (rightSideValue > leftSideValue) {
+			leftStat.classList.remove('is-primary');
+			leftStat.classList.add('is-warning');
+		} else {
+			rightStat.classList.remove('is-primary');
+			rightStat.classList.add('is-warning');
+		}
+	});
+};
 
 const movieTemplate = (movieDetail) => {
 	const dollars = parseInt(movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, ''));
